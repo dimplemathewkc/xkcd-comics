@@ -26,7 +26,7 @@ SECRET_KEY = "django-insecure-#&^9g0ahv%7f_4au=qr2(zvy6h!yfr6)m0v8ur0=(m*tz+!(^&
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -97,8 +97,8 @@ CACHES = {
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": 'comic_store',
-        "USER": 'postgres',
+        "NAME": "comic_store",
+        "USER": "postgres",
         "PASSWORD": "postgres",
         "HOST": "db",
         "PORT": 5432,
