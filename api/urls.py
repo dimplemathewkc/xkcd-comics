@@ -7,5 +7,4 @@ router = routers.DefaultRouter()
 
 urlpatterns = [
     path("comics/", views.ComicView.as_view(), name="comics"),
-    path("^", include(router.urls)),
 ]
