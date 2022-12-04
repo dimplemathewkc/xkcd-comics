@@ -1,4 +1,4 @@
-from rest_framework import status
+from rest_framework import status, viewsets
 from rest_framework.authentication import BasicAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -38,6 +38,12 @@ class ComicView(APIView):
 
         """
         comic_title = self.request.GET.get("title")
+
+        if not comic_title:
+            # Get all comics from cache
+            comic = [comic.title for comic in Comic.objects.all()]
+            return Response(status=status.HTTP_200_OK, data=comic)
+
         # Check if the comic exists in cache
         comic = get_comics_from_cache(comic_title)
         if comic not in [None, ""]:
