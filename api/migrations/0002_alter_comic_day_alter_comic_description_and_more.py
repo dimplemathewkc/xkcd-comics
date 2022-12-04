@@ -9,24 +9,6 @@ class Migration(migrations.Migration):
         ("api", "0001_initial"),
     ]
 
-    def generate_user(apps, schema_editor):
-        from django.contrib.auth.models import User
-
-        DJANGO_SU_NAME = os.environ.get('DJANGO_SU_NAME')
-        DJANGO_SU_EMAIL = os.environ.get('DJANGO_SU_EMAIL')
-        DJANGO_SU_PASSWORD = os.environ.get('DJANGO_SU_PASSWORD')
-
-        superuser = User.objects.create_superuser(
-            username=DJANGO_SU_NAME,
-            email=DJANGO_SU_EMAIL,
-            password=DJANGO_SU_PASSWORD)
-
-        superuser.save()
-
-    #     generate token for superuser
-        from rest_framework.authtoken.models import Token
-        Token.objects.create(user=superuser)
-
     operations = [
         migrations.AlterField(
             model_name="comic",
