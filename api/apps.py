@@ -1,4 +1,7 @@
 from django.apps import AppConfig
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class ApiConfig(AppConfig):
@@ -7,5 +10,5 @@ class ApiConfig(AppConfig):
 
     def ready(self):
         from api.service import get_comic_data
-
-        # get_comic_data()
+        logger.info("Starting comic data loader")
+        get_comic_data()
