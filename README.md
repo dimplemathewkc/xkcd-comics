@@ -99,7 +99,7 @@ POSTGRES_USER=postgres
 POSTGRES_PASSWORD=postgres
 
 ```
-##Tests
+## Tests
 
 To run the tests, run the following command:
 
