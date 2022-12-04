@@ -81,6 +81,24 @@ This will update the item in the DB with the new values.
 ```
 This will delete the data from the database.
 
+##env variables 
+Add a .env file in the root directory with the following variables:
+```
+DEBUG=1
+SECRET_KEY=foo
+DJANGO_ALLOWED_HOSTS=0.0.0.0 127.0.0.1 [::1]
+
+DJANGO_SU_NAME=admin
+DJANGO_SU_EMAIL=admin@admin.com
+DJANGO_SU_PASSWORD=admin1234
+
+POSTGRES_HOST=db
+POSTGRES_PORT=5432
+POSTGRES_DB=comic_store
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=postgres
+
+```
 ##Tests
 
 To run the tests, run the following command:
