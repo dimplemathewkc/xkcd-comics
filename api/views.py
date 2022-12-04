@@ -4,7 +4,12 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from ComicStore.utils.cache import get_comics_from_cache
+from ComicStore.utils.cache import (
+    get_comics_from_cache,
+    set_comics_to_cache,
+    update_comics_in_cache,
+    delete_comics_from_cache,
+)
 from api.models import Comic
 from api.serializer import ComicSerializer
 
@@ -14,7 +19,7 @@ logger = logging.getLogger(__name__)
 
 
 class ComicView(APIView):
-    authentication_classes = [BasicAuthentication]
+    # authentication_classes = [BasicAuthentication]
     permission_classes = [IsAuthenticated]
 
     def get(self, request) -> Response:
@@ -41,6 +46,10 @@ class ComicView(APIView):
         if Comic.objects.filter(title=comic_title).exists():
             comic = Comic.objects.get(title=comic_title)
             serializer = ComicSerializer(comic)
+
+            # Set the comic to cache
+            set_comics_to_cache(comic_title, serializer.data)
+
             logger.info("Comic found in database")
             return Response(serializer.data, status=status.HTTP_200_OK)
         else:
@@ -80,6 +89,10 @@ class ComicView(APIView):
         serializer = ComicSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
+
+            # Set the comic to cache
+            set_comics_to_cache(comic_title, serializer.data)
+
             logger.info("Comic created")
             return Response(
                 status=status.HTTP_201_CREATED, data={"message": "Comic created"}
@@ -115,17 +128,23 @@ class ComicView(APIView):
             serializer = ComicSerializer(comic, data=request.data)
             if serializer.is_valid():
                 serializer.save()
+
+                # Update the comic in cache
+                update_comics_in_cache(comic_title, serializer.data)
+
                 logger.info("Comic updated")
                 return Response(
                     status=status.HTTP_200_OK, data={"message": "Comic updated"}
                 )
             else:
                 logger.error("Invalid data")
+
                 return Response(
                     status=status.HTTP_400_BAD_REQUEST, data={"message": "Invalid data"}
                 )
         else:
             logger.error("Comic not found")
+
             return Response(
                 status=status.HTTP_400_BAD_REQUEST, data={"message": "Comic not found"}
             )
@@ -147,12 +166,17 @@ class ComicView(APIView):
         if Comic.objects.filter(title=comic_title).exists():
             comic = Comic.objects.get(title=comic_title)
             comic.delete()
+            # Delete the comic from cache
+            delete_comics_from_cache(comic_title)
+
             logger.info("Comic deleted")
+
             return Response(
                 status=status.HTTP_200_OK, data={"message": "Comic deleted"}
             )
         else:
             logger.error("Comic not found")
+
             return Response(
                 status=status.HTTP_400_BAD_REQUEST, data={"message": "Comic not found"}
             )
