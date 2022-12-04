@@ -12,7 +12,25 @@ To build and run the API, you need to have [Docker](https://www.docker.com/) ins
 docker-compose up
 
 ```
+
+## Management command
+
+To load data to the db run the following command:
+
+```
+python manage.py load_data_to_db
+```
+
 ## Usage
+1. Create user account
+To create user account make a request to the `/create_user` endpoint with the following JSON body:
+```
+{
+    "username": "username",
+    "password": "password"
+}
+```
+2. Get token
 The api is secured with a simple API token. The API token is passed in the header to access apis.
 To generate an API token, Make a POST request to `http://0.0.0.0:8000/get_token/` with the following body:
 ```
@@ -25,8 +43,16 @@ To generate an API token, Make a POST request to `http://0.0.0.0:8000/get_token/
 
 The response will be a JSON object with the API key. The API key will be used to access the API.
 
+### (All API's are secured with the API token)
 
 ## API Reference
+
+### Get all comics
+
+```
+GET api/comics/
+Authorization Token <token>
+```
 
 #### Get  item from DB
 
