@@ -2,7 +2,6 @@ import requests
 from django.core.management import BaseCommand
 
 
-
 import logging
 
 from api.models import Comic
@@ -15,7 +14,7 @@ class Command(BaseCommand):
     help = "Load data from xkcd API to DB"
 
     def handle(self, *args, **options):
-        for i in range(1, 5):
+        for i in range(1, 100):
             try:
                 response = requests.get(f"https://xkcd.com/{i}/info.0.json")
                 if not Comic.objects.filter(title=response.json()["title"]).exists():
