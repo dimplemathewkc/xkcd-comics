@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.test import TestCase
 from rest_framework.test import APIClient
 from rest_framework import status
@@ -9,6 +10,11 @@ class TestApi(TestCase):
         The setUp method is executed before each test
         """
         self.client = APIClient()
+        # get token
+        self.user = User.objects.create_user(username="test", password="test123")
+        self.user.save()
+        self.token = (self.client.post("/get_token/", {"username": "test", "password": "test123"})).data
+        self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token)
         self.client.post(
             "/api/comics/",
             {
@@ -20,6 +26,7 @@ class TestApi(TestCase):
                 "month": "string",
                 "year": "string",
             },
+            header={'Authorization': 'Token ' + self.token},
             format="json",
         )
 
@@ -65,7 +72,7 @@ class TestApi(TestCase):
         """
         Test validates get comic
         """
-        response = self.client.get("/api/comics/?title=string", format="json")
+        response = self.client.get("/api/comics/?title=string",format="json")
         self.assertTrue(status.is_success(response.status_code))
 
     def test_get_comic_not_found(self):
