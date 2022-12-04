@@ -88,5 +88,8 @@ To run the tests, run the following command:
 ```
 coverage run manage.py test
 ```
+![Screenshot 2022-12-04 at 12 27 18 PM](https://user-images.githubusercontent.com/36413448/205488168-4849fb90-984d-459f-b01c-5fd5316d179a.png)
 
 Coverage report will be generated in the `htmlcov` directory.
+
+
